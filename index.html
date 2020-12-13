@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Úkol k procvičení javascriptu - kalkulačka</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            background-color: #FAF0E6;
+        }
+
+        .calc {
+            width: 100%;
+            position: relative;
+            top: 50%;
+            display: inline-block;
+            transform: translateY(-50%);
+        }
+
+        .calcInner {
+            display: table;
+            margin: 0 auto;
+        }
+
+        div#buttons{
+            overflow: auto;
+            width: 330px;
+        }
+        div#buttons button{
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            width: 80px;
+            float: left;
+            border: 2px solid #FAF0E6;
+            margin: 0;
+            background: white;
+            cursor: pointer;
+        }
+        div#buttons button:hover{
+            background: maroon;
+            color: white;
+        }
+        div#buttons button#button0{
+            width: 160px;
+        }
+        div#buttons button#buttonRovnase{
+            width: 240px;
+        }
+        input#cislo{
+            outline: none;
+            padding: 20px;
+            width: 320px;
+            color: black;
+            border: none;
+            font-size: 24px;
+            background-color: white;
+            text-align: right;
+        }
+    </style>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var operator = "";
+        var firstNumber = 0;
+        var probihajiciVypocet=false;
+        $(document).ready(function(){
+            var numberInput=$('#cislo');
+            $('.numberButton').click(function(){
+                var aktualniCislo=$(this).text();
+                var numberInputVal=numberInput.val();
+                if (probihajiciVypocet){
+                    probihajiciVypocet = false;
+                    numberInputVal = 0;
+                }
+                if (numberInputVal==0 && aktualniCislo>0){
+                    numberInputVal=aktualniCislo;
+                }else if(numberInputVal>0){
+                    numberInputVal+=aktualniCislo;
+                }
+                numberInput.val(numberInputVal);
+            });
+            $('#buttonFaktorial').click(function(){
+                var number = numberInput.val();
+                var output = 1;
+                if(number <= 0){
+                     output = 1;
+                }else{
+                    for(i=1; i<=number; i++){
+                        output = output*i;
+                    }
+                }
+
+                numberInput.val(output);
+            });
+
+            $('#buttonPlus').click(function(){
+                operator = "+";
+                firstNumber = numberInput.val();
+                probihajiciVypocet = true;  
+            });
+
+            $('#buttonMinus').click(function(){
+                operator = "-";
+                firstNumber = numberInput.val();
+                probihajiciVypocet = true;  
+            });
+
+            $('#buttonKrat').click(function(){
+                operator = "*";
+                firstNumber = numberInput.val();
+                probihajiciVypocet = true;  
+            });
+
+            $('#buttonDeleno').click(function(){
+                operator = "/";
+                firstNumber = numberInput.val();
+                probihajiciVypocet = true;  
+            });
+
+            $('#buttonRovnase').click(function(){
+                spocitat(firstNumber, numberInput.val());
+                probihajiciVypocet = false;
+            });
+            $('#buttonCe').click(function(){
+                numberInput.val(0);
+                probihajiciVypocet=false;
+            });
+
+            function spocitat(a, b){
+                if(operator == "+") {
+                    numberInput.val(Number(a) + Number(b));
+                } else if (operator == "-") {
+                    numberInput.val(Number(a) - Number(b));
+                } else if (operator == "*") {
+                    numberInput.val(Number(a) * Number(b));
+                } else if (operator == "/") {
+                    numberInput.val(Number(a) / Number(b));
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="calc">
+            <div class="calcInner">
+                <input id="cislo" value="0" readonly />
+                <div id="buttons">
+                    <button type="button" class="numberButton" id="button7">7</button>
+                    <button type="button" class="numberButton" id="button8">8</button>
+                    <button type="button" class="numberButton" id="button9">9</button>
+                    <button type="button" id="buttonPlus">+</button>
+
+                    <button type="button" class="numberButton" id="button4">4</button>
+                    <button type="button" class="numberButton" id="button5">5</button>
+                    <button type="button" class="numberButton" id="button6">6</button>
+                    <button type="button" id="buttonMinus">-</button>
+
+                    <button type="button" class="numberButton" id="button1">1</button>
+                    <button type="button" class="numberButton" id="button2">2</button>
+                    <button type="button" class="numberButton" id="button3">3</button>
+                    <button type="button" id="buttonKrat">*</button>
+
+                    <button type="button" class="numberButton" id="button0">0</button>
+                    <button type="button" id="buttonFaktorial" title="faktoriál">!</button>
+                    <button type="button" id="buttonDeleno">/</button>
+
+                    <button type="button" id="buttonCe">CE</button>
+                    <button type="button" id="buttonRovnase">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
